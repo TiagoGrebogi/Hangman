@@ -40,7 +40,7 @@ if difficultySelect == 1:
     
 elif difficultySelect == 2:
     clear()
-    erros = 4
+    erros = 3
     for index, key in enumerate(hardDifficulty.keys(), 1):
         print(f"{index} - {key}")
     themeSelect = int(input("Selecione um dos temas: "))
@@ -99,7 +99,7 @@ if escolha == 1: # 1 player mode
                     if palavra[i] == palpite and i < len(letras_certas):
                         letras_certas[i] = palpite
 
-            else:
+            if palpite not in palavra:
                 print('Ops! A letra não está na palavra.')
                 letras_erradas.append(palpite)
                 play_wrong_guess_sound()
@@ -119,7 +119,10 @@ if escolha == 1: # 1 player mode
 
 if escolha == 2: # 2 players mode
     def main(erros):
+        if difficultySelect == 2:
+            erros = 4
         clear()
+        dica_opcao = None
         letras_certas = ['_'] * len(palavra)
         letras_erradas = []
         dica_usada = False
@@ -148,20 +151,20 @@ if escolha == 2: # 2 players mode
             jogador1 = True
             jogador2 = True
 
-            if difficultySelect == 2 and not dica_usada and erros == 1:
-                dica_opcao = input("Deseja solicitar uma dica? (s/n): ").lower()
-                if dica_opcao == 's':
-                    print("Dica:", dica(palavra))
-                    dica_usada = True
-            
-            if difficultySelect == 1 and not dica_usada and erros == 3:
-                dica_opcao = input("Deseja solicitar uma dica? (s/n): ").lower()
-                if dica_opcao == 's':
-                    print("Dica:", dica(palavra))
-                    dica_usada = True
-
             while jogador1:
                 if jogador2Ganhou == False:
+                    if difficultySelect == 2 and not dica_usada and erros == 2:
+                        dica_opcao = input("Deseja solicitar uma dica? (s/n): ").lower()
+                        if dica_opcao == 's':
+                            print("Dica:", dica(palavra))
+                            dica_usada = True
+            
+                    if difficultySelect == 1 and not dica_usada and erros == 4:
+                        dica_opcao = input("Deseja solicitar uma dica? (s/n): ").lower()
+                        if dica_opcao == 's':
+                            print("Dica:", dica(palavra))
+                            dica_usada = True
+                        
                     if all(letra != '_' for letra in letras_certas):
                         print(f'Parabéns {jogador1Name}! Você adivinhou corretamente!')
                         play_correct_guess_sound()
@@ -238,6 +241,11 @@ if escolha == 2: # 2 players mode
                             play_lose_sound()
                             jogador2Perdeu = True
                             break
+                    if erros == 0:
+                        if difficultySelect == 2:
+                            print(mostrar_forca_2Jogadores(4))
+                            print(f'{jogador2Name} perdeu! A palavra era: ', palavra)
+                            play_lose_sound()
 
                     if difficultySelect == 1:
                         print(mostrar_forca_facil(len(letras_erradas)))

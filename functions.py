@@ -132,10 +132,6 @@ def mostrar_forca_dificil(erros):
         _________
         """
     ]
-    if erros < 0:
-        erros = 0
-    elif erros >= len(forca):
-        erros = len(forca) - 1
     
     return forca[erros]
 
@@ -187,9 +183,6 @@ def mostrar_forca_2Jogadores(erros):
         _________
         """
     ]
-    if erros < 0:
-        erros = 0
-    elif erros >= len(forca):
-        erros = len(forca) - 1
     
     return forca[erros]
+
