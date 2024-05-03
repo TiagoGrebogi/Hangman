@@ -112,7 +112,7 @@ if escolha == 1: # 1 player mode
                 break
             
             if  difficultySelect == 2 and erros == 0:
-                print(mostrar_forca_dificil(3))
+                print(mostrar_forca_dificil(4))
                 print('Você perdeu! A palavra era: ', palavra)
                 play_lose_sound()
                 break
@@ -133,12 +133,12 @@ if escolha == 2: # 2 players mode
             if erros == 0:
                 if difficultySelect == 1:
                     mostrar_forca_facil(len(letras_erradas))
-                    print('Ninguém adivinhou a palavra! A palavra era: ', palavra)
+                    print('A palavra era: ', palavra)
                     play_lose_sound()
                     break
                 if difficultySelect == 2:
                     mostrar_forca_2Jogadores(len(letras_erradas))
-                    print('Ninguém adivinhou a palavra! A palavra era: ', palavra)
+                    print('A palavra era: ', palavra)
                     play_lose_sound()
                     break
             jogador1Ganhou = False
@@ -148,13 +148,13 @@ if escolha == 2: # 2 players mode
             jogador1 = True
             jogador2 = True
 
-            if difficultySelect == 2 and not dica_usada and erros == 1:
+            if difficultySelect == 2 and not dica_usada and erros == 2:
                 dica_opcao = input("Deseja solicitar uma dica? (s/n): ").lower()
                 if dica_opcao == 's':
                     print("Dica:", dica(palavra))
                     dica_usada = True
             
-            if difficultySelect == 1 and not dica_usada and erros == 3:
+            if difficultySelect == 1 and not dica_usada and erros == 4:
                 dica_opcao = input("Deseja solicitar uma dica? (s/n): ").lower()
                 if dica_opcao == 's':
                     print("Dica:", dica(palavra))
@@ -169,20 +169,6 @@ if escolha == 2: # 2 players mode
                         jogador1Pontuacao += 3
                         print(f'A pontuação do {jogador1Name} foi de {jogador1Pontuacao} pontos!')
                         break
-
-                    if erros == 0:
-                        if difficultySelect == 1:
-                            print(mostrar_forca_facil(6))
-                            print(f'{jogador1Name} perdeu! A palavra era: ', palavra)
-                            play_lose_sound()
-                            jogador1Perdeu = True
-                            break
-                        elif difficultySelect == 2:
-                            print(mostrar_forca_2Jogadores(4))
-                            print(f'{jogador1Name} perdeu! A palavra era: ', palavra)
-                            play_lose_sound()
-                            jogador1Perdeu = True
-                            break
 
                     if difficultySelect == 1:
                         print(mostrar_forca_facil(len(letras_erradas)))
@@ -231,14 +217,6 @@ if escolha == 2: # 2 players mode
                         jogador2Pontuacao += 3
                         break
 
-                    if erros == 0:
-                        if difficultySelect == 1:
-                            print(mostrar_forca_facil(6))
-                            print(f'{jogador2Name} perdeu! A palavra era: ', palavra)
-                            play_lose_sound()
-                            jogador2Perdeu = True
-                            break
-
                     if difficultySelect == 1:
                         print(mostrar_forca_facil(len(letras_erradas)))
                         print('Palavra:', " ".join(letras_certas))
@@ -267,17 +245,40 @@ if escolha == 2: # 2 players mode
                         letras_erradas.append(palpitePlayer2)
                         erros -= 1
                         break
+                    
+                    if erros == 0:
+                        jogador2Perdeu = True
+                        
             if jogador1Ganhou or jogador2Ganhou:
                 break
+            
+            if erros == 0:
+                if difficultySelect == 1:
+                    print(mostrar_forca_facil(6))
+                    print(f'Ninguém acertou a palavra')
+                    play_lose_sound()
+                    jogador1Perdeu = True
+                elif difficultySelect == 2:
+                    print(mostrar_forca_dificil(4))
+                    print(f'Ninguém acertou a palavra')
+                    play_lose_sound()
+                    jogador1Perdeu = True
+                    
+            if jogador1Pontuacao > jogador2Pontuacao:
+                print(f"O jogador {jogador1Name} ganhou com {jogador1Pontuacao} pontos!")
+            elif jogador2Pontuacao > jogador1Pontuacao:
+                print(f"O jogador {jogador2Name} ganhou com {jogador2Pontuacao} pontos!")
+            else:
+                print(f"Os jogadores {jogador1Name} e {jogador2Name} empataram com {jogador1Pontuacao} pontos!")   
 
-
+                
 if escolha == 3: # custom word mode
     newWord = input('Deseja adicionar qual palavra?')
     def main(erros):
         clear()
         letras_certas = ['_'] * len(newWord)
         letras_erradas = []
-        erros = 3
+        erros = 4
 
         while True:
             print(mostrar_forca_dificil(len(letras_erradas)))
@@ -309,7 +310,7 @@ if escolha == 3: # custom word mode
                 erros -= 1
 
             if erros == 0:
-                print(mostrar_forca_dificil(3))
+                print(mostrar_forca_dificil(4))
                 print('Você perdeu! A palavra era: ', newWord)
                 play_lose_sound()
                 break
